@@ -20,6 +20,12 @@
   },
   "homepage": "https://github.com/devansh05/autowiki-for-git#readme",
   "dependencies": {
+    "@langchain/core": "^1.2.20",
+    "@langchain/openai": "^1.6.3",
+    "@langchain/pinecone": "^1.0.3",
+    "@langchain/textsplitters": "^1.0.2",
+    "@octokit/rest": "^22.0.1",
+    "@pinecone-database/pinecone": "^9.1.0",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
     "inngest": "^4.25.0",
