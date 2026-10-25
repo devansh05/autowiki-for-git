@@ -81,31 +81,29 @@ function shouldSkipFile(path, size) {
   return false;
 }
 
-function shouldSkipFile(path, size) {
-  const parts = path.split("/");
-  const fileName = parts[parts.length - 1];
-
-  if (parts.some((part) => SKIP_DIRS.includes(part))) return true;
-  if (SKIP_FILES.has(fileName)) return true;
-  if (typeof size === "number" && size > 200_000) return true;
-
-  const ext = fileName.includes(".")
-    ? fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase()
-    : "";
-
-  if (SKIP_EXTENSIONS.has(ext)) return true;
-  if (fileName.endsWith(".min.js")) return true;
-
-  return false;
-}
-
 export function parseRepo(input) {
+  const invalidRepoMessage =
+    "repo must be owner/repo or a GitHub repository URL";
+
+  if (typeof input !== "string") {
+    throw new Error(invalidRepoMessage);
+  }
+
   const clean = input
-    .replace("https://github.com/", "")
-    .replace("http://github.com/", "")
+    .trim()
+    .replace(/^https?:\/\/github\.com\//i, "")
+    .replace(/\/+$/, "")
     .replace(/\.git$/, "");
 
+  if (!/^[a-zA-Z0-9-]+\/[a-zA-Z0-9_.-]+$/.test(clean)) {
+    throw new Error(invalidRepoMessage);
+  }
+
   const [owner, repo] = clean.split("/");
+  if (repo === "." || repo === "..") {
+    throw new Error(invalidRepoMessage);
+  }
+
   return { owner, repo, repoKey: `${owner}/${repo}` };
 }
 
