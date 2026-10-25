@@ -16,7 +16,7 @@ function repoToNamespace(repo) {
 }
 
 function getIndex(namespace) {
-  const indexName = process.env.PINECONE_INDEX || "git-auto-wiki";
+  const indexName = process.env.PINECONE_INDEX || "git-wiki";
   return pc.index({ name: indexName }).namespace(namespace);
 }
 

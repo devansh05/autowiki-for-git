@@ -9,12 +9,11 @@ async function startChatJob(repo, question) {
 
   await inngest.send({
     name: "chat/question.requested",
-    data: {repo: repoKey, question },
+    data: { repo: repoKey, question },
   });
 
-  return "check your inngest "
+  return "check your inngest ";
 }
-
 
 router.post("/", async (req, res) => {
   const { repo, question } = req.body ?? {};
@@ -25,7 +24,5 @@ router.post("/", async (req, res) => {
 
   res.status(202).json(await startChatJob(repo, question));
 });
-
-
 
 export default router;

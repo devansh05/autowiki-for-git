@@ -82,28 +82,12 @@ function shouldSkipFile(path, size) {
 }
 
 export function parseRepo(input) {
-  const invalidRepoMessage =
-    "repo must be owner/repo or a GitHub repository URL";
-
-  if (typeof input !== "string") {
-    throw new Error(invalidRepoMessage);
-  }
-
   const clean = input
-    .trim()
-    .replace(/^https?:\/\/github\.com\//i, "")
-    .replace(/\/+$/, "")
+    .replace("https://github.com/", "")
+    .replace("http://github.com/", "")
     .replace(/\.git$/, "");
 
-  if (!/^[a-zA-Z0-9-]+\/[a-zA-Z0-9_.-]+$/.test(clean)) {
-    throw new Error(invalidRepoMessage);
-  }
-
   const [owner, repo] = clean.split("/");
-  if (repo === "." || repo === "..") {
-    throw new Error(invalidRepoMessage);
-  }
-
   return { owner, repo, repoKey: `${owner}/${repo}` };
 }
 
